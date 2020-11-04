@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unguided</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">   
+</head>
+<body>
+    <div id="app">
+        <div class="p-20">
+            <h3>Tebak Angka</h3>
+            <input class="form-control" type="number" v-model="steven.input" :disabled="steven.disabled" placeholder="Berapaaaa...">
+            <button class="btn btn-primary" @click="tebak" :disabled="steven.disabled">Tebak</button>
+        </div>
+        <div v-show="steven.benar">
+            <h3>Selamat Anda Benar!!</h3>
+            <p>Angkanya adalah {{ steven.angka }}</p>
+            <button class="btn btn-primary" @click="next">Main Lagi?</button>
+        </div>
+        <div v-show="steven.salah">
+            <h3>Angka yang anda masukkan salah!!</h3>
+            <button class="btn btn-warning" @click="coba">Coba Lagi</button>
+        </div>
+        <div v-show="steven.kalah">
+            <h3>Sayang sekali, Anda Kalah!!</h3>
+            <p>Angka yang benar adalah {{ steven.angka }}</p>
+            <button class="btn btn-primary" @click="next">Main Lagi?</button>
+        </div>
+        <footer>
+            <p>{{ steven.myData.nama }} | {{ steven.myData.npm }} | {{ steven.myData.kelas }}</p>
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            steven: {
+                kesempatan: 3,
+                angka: (Math.floor(Math.random()*9))+1,
+                input: 0,
+                benar: false,
+                salah: false,
+                kalah: false,
+                disabled: false,
+                myData: {
+                    nama: "Steven Kristian Lokardo",
+                    npm: "180709611",
+                    kelas: "PAW D",
+                }
+            },        
+        },
+        methods: {
+            tebak(){
+                console.log(this.steven.angka);
+                if(this.steven.angka == this.steven.input) {
+                    this.steven.benar= true;
+                    this.steven.disabled= true;
+                }else {
+                    this.steven.kesempatan--;
+                    this.steven.salah= true;
+                    this.steven.disabled= true;
+                    if(this.steven.kesempatan == 0){                    
+                        this.steven.disabled= true;
+                        this.steven.salah = false;
+                        this.steven.kalah = true;
+                    }
+                }
+            },
+            coba(){
+                this.steven.disabled= false;
+                this.steven.salah= false;
+            },
+            next(){
+                this.steven.disabled = false;
+                this.steven.kalah =false;
+                this.steven.benar =false;
+                this.steven.angka= (Math.floor(Math.random()*9))+1;
+                this.steven.input = 0;
+            }
+        },
+    });
+</script>
+</html>
