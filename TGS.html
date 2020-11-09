@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="app">
+        <div class="col-5 justify-content-center mx-auto" style="overflow-y: auto;">
+            <div v-for="(todo,index) in todos" :key="index">
+                <div class="card my-2">
+                    <div class="card-body">
+                        <span class="float-right"><i class="fa fa-times-circle" @click="deleteTodo(index)"></i></span>
+                        <span v-if="todo.prioritas == 'penting'" class="badge badge-danger text-white">Penting</span>
+                        <span v-else-if="todo.prioritas == 'biasa'" class="badge badge-primary text-white">Biasa</span>
+                        <span v-else-if="todo.prioritas == 'tidak penting'" class="badge badge-success text-white">Tidak Penting</span>
+                        <br>
+                        <h4>{{ todo.kegiatan }}</h4>
+                        <p>{{ todo.catatan }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-5 justify-content-center mx-auto mt-5">
+            <div class="card p-5">
+                <div class="form-group">
+                    <label for="kegiatan"><strong>Apa yang mau kamu kerjakan?</strong></label><br>
+                    <input type="text" class="form-control" id="kegiatan"><br>
+                </div>
+                <div class="form-group">
+                    <label for="prioritas"><strong>Penting gak?</strong></label><br>
+                    <select name="prioritas" class="form-control" id="prioritas">
+                        <option value="penting">Penting</option>
+                        <option value="biasa">Biasa</option>
+                        <option value="tidak penting">Tidak Penting</option>
+                    </select><br>
+                </div>
+                <div class="form-group">
+                    <label for="catatan"><strong>Ada catatan penting?</strong></label><br>
+                    <textarea name="catatan" id="catatan" class="form-control" cols="50" rows="5"></textarea><br>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-dark" @click="reset">Reset</button>
+                    <button class="btn btn-primary" @click="simpan">Simpan</button>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-5">
+            <p>{{ steven.nama }} | {{ steven.npm }} | {{ steven.kelas }}</p>
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            todos : [
+
+            ],   
+            steven : {
+                nama: "Steven Kristian Lokardo",
+                npm: "180709611",
+                kelas: "PAW D",
+            },
+        },
+        methods: {
+            simpan(){
+                kegiatan = document.getElementById('kegiatan');
+                prioritas = document.getElementById('prioritas');
+                catatan = document.getElementById('catatan');
+                
+                todo = {
+                    kegiatan : kegiatan.value,
+                    prioritas : prioritas.value,
+                    catatan : catatan.value,
+                }
+                this.reset();
+                this.todos.push(todo);
+                console.log(this.todo);
+            },
+            reset(){
+                document.getElementById('kegiatan').value="";
+                document.getElementById('prioritas').value="";
+                document.getElementById('catatan').value="";
+            },
+            deleteTodo(index){
+                this.todos.splice(index,1);
+            },
+        },
+    });
+</script>
+</html>
